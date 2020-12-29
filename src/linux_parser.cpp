@@ -117,10 +117,7 @@ float LinuxParser::CpuUtilization() {
 
 int GetStatValue(std::string path, std::string target_key_name) {
 	std::ifstream stat(path);
-	if (!stat) {
-		// std::cout << "Can't open path " << path << "\n";
-		return 0;
-	}
+	if (!stat) return 0;
 
 	std::string line;
 	while (std::getline(stat, line)) {
@@ -133,7 +130,6 @@ int GetStatValue(std::string path, std::string target_key_name) {
 			return n;
 		}
 	}
-	// std::cout << "Couldn't find key \"" << target_key_name << "\" in " << path << "\n";
 	return 0;
 }
 
@@ -157,10 +153,7 @@ string LinuxParser::Command(int pid) {
 
 // Read and return the memory used by a process in kilobytes
 int LinuxParser::Ram(int pid) {
-	auto val = GetStatValue("/proc/" + std::to_string(pid) + "/status", "VmSize:");
-	// std::cout << "Got PID RAM: " << val << "\n";
-	return val;
-	// return GetStatValue("/proc/" + std::to_string(pid) + "/status", "VmSize:");
+	return GetStatValue("/proc/" + std::to_string(pid) + "/status", "VmSize:");
 }
 
 // Read and return the user ID associated with a process
